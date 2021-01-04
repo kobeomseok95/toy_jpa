@@ -1,5 +1,6 @@
 package com.toy.jpa.service;
 
+import com.toy.jpa.dto.FindMemberDto;
 import com.toy.jpa.dto.UpdateMemberRequestDto;
 import com.toy.jpa.exception.MemberExitException;
 import com.toy.jpa.domain.Member;
@@ -22,17 +23,23 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public Optional<Member> findByEmail(String email) {
-        return memberRepository.findByEmail(email);
+    public FindMemberDto findByEmail(String email) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        return convertFindMemberDto(findMember);
     }
 
-    public Optional<Member> findById(Long id) {
-        return memberRepository.findById(id);
+    public FindMemberDto findById(Long id) {
+        Optional<Member> findMember = memberRepository.findById(id);
+        return convertFindMemberDto(findMember);
+    }
+
+    private FindMemberDto convertFindMemberDto(Optional<Member> member) {
+        return new FindMemberDto(member.get());
     }
 
     @Transactional
-    public void updateMember(Member member, UpdateMemberRequestDto dto) {
-        Optional<Member> findMember = memberRepository.findById(member.getId());
+    public void updateMember(Long memberId, UpdateMemberRequestDto dto) {
+        Optional<Member> findMember = memberRepository.findById(memberId);
         findMember.get().changeMember(dto);
     }
 

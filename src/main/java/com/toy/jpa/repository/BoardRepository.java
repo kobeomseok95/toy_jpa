@@ -1,2 +1,8 @@
-package com.toy.jpa.repository;public interface BoardRepository {
+package com.toy.jpa.repository;
+
+import com.toy.jpa.domain.Board;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BoardRepository extends JpaRepository<Board, Long> {
+
 }

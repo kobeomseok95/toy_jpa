@@ -6,6 +6,8 @@ import com.toy.jpa.domain.base.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,7 +19,7 @@ public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "memberId")
+    @Column(name = "member_id")
     private Long id;
 
     private String name;
@@ -26,6 +28,10 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "member")
+    private List<Board> boards = new ArrayList<>();
+
 
     @Enumerated(value = EnumType.STRING)
     private ExitStatus status;
