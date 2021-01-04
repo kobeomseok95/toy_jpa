@@ -1,6 +1,7 @@
 package com.toy.jpa.service;
 
-import com.toy.jpa.MemberExitException;
+import com.toy.jpa.dto.UpdateMemberRequestDto;
+import com.toy.jpa.exception.MemberExitException;
 import com.toy.jpa.domain.Member;
 import com.toy.jpa.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +31,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(Member member) {
+    public void updateMember(Member member, UpdateMemberRequestDto dto) {
         Optional<Member> findMember = memberRepository.findById(member.getId());
-        findMember.get().changeMember(member);
+        findMember.get().changeMember(dto);
     }
 
     @Transactional

@@ -1,16 +1,14 @@
 package com.toy.jpa.service;
 
-import com.toy.jpa.MemberExitException;
+import com.toy.jpa.dto.UpdateMemberRequestDto;
+import com.toy.jpa.exception.MemberExitException;
 import com.toy.jpa.domain.Address;
 import com.toy.jpa.domain.ExitStatus;
 import com.toy.jpa.domain.Member;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.hibernate.sql.Update;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -18,7 +16,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.reflections.util.ConfigurationBuilder.build;
 
 @SpringBootTest
 @Transactional
@@ -85,29 +82,40 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 수정")
-    void updateMemberTest() {   //값 타입 공유참조파트
+    void updateMemberTest() {
+        String changeName = "바뀜";
+        String changeEmail = "XXX.com";
+        String changePassword = "1234";
+        String changeCity = "changeCity";
+        String changeStreet = "changeStreet";
+        String changeZipcode = "changeZipcode";
+
+
         Optional<Member> findMember = memberService.findByEmail("kobumssh55@naver.com");
         findMember.get().changeMember(
-                Member.builder()
-                        .name("바뀜")
-                        .email("XXX.com")
-                        .password("1234")
-                        .address(
-                                Address.builder()
-                                        .city("asdf")
-                                        .street("asdf")
-                                        .zipcode("asdf")
-                                        .build()
-                        )
-                        .status(ExitStatus.JOIN)
+                UpdateMemberRequestDto.builder()
+                        .name(changeName)
+                        .email(changeEmail)
+                        .password(changePassword)
+                        .city(changeCity)
+                        .street(changeStreet)
+                        .zipcode(changeZipcode)
                         .build()
         );
+
         em.flush();
         em.clear();
 
         Optional<Member> changedMember = memberService.findByEmail("XXX.com");
-        assertThat(changedMember.get())
-                .isEqualTo(findMember.get());
+        assertAll(
+                () -> assertEquals(changedMember.get().getId(), findMember.get().getId(), () -> "id가 다릅니다."),
+                () -> assertEquals(changedMember.get().getName(), changeName, () -> "이름이 다릅니다."),
+                () -> assertEquals(changedMember.get().getEmail(), changeEmail, () -> "메일이 다릅니다."),
+                () -> assertEquals(changedMember.get().getPassword(), changePassword, () -> "비밀번호가 다릅니다."),
+                () -> assertEquals(changedMember.get().getAddress().getCity(), changeCity, () -> "city가 다릅니다."),
+                () -> assertEquals(changedMember.get().getAddress().getStreet(), changeStreet, () -> "street이 다릅니다."),
+                () -> assertEquals(changedMember.get().getAddress().getZipcode(), changeZipcode, () -> "zipcode가 다릅니다.")
+        );
     }
 
     @Test
