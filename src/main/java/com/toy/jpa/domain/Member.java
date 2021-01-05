@@ -32,7 +32,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
 
-
     @Enumerated(value = EnumType.STRING)
     private ExitStatus status;
 

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FindMemberDto {
+public class FindMemberResponseDto {
 
     private Long id;
     private String name;
@@ -16,7 +16,7 @@ public class FindMemberDto {
     private String street;
     private String zipcode;
 
-    public FindMemberDto(Member member) {
+    public FindMemberResponseDto(Member member) {
         this.id = member.getId();
         this.name = member.getName();
         this.email = member.getEmail();

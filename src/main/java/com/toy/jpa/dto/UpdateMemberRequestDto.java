@@ -13,6 +13,7 @@ import javax.persistence.Embedded;
 @AllArgsConstructor
 @Builder
 public class UpdateMemberRequestDto {
+
     private String name;
     private String email;
     private String password;
