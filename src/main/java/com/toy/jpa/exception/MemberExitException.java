@@ -1,6 +1,6 @@
 package com.toy.jpa.exception;
 
-public class MemberExitException extends Exception {
+public class MemberExitException extends IllegalStateException {
     public MemberExitException(String message) {
         super(message);
     }

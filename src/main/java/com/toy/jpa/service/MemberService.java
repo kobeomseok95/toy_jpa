@@ -1,11 +1,14 @@
 package com.toy.jpa.service;
 
+import com.toy.jpa.domain.Address;
 import com.toy.jpa.domain.ExitStatus;
 import com.toy.jpa.dto.FindMemberResponseDto;
+import com.toy.jpa.dto.MemberJoinRequestDto;
 import com.toy.jpa.dto.UpdateMemberRequestDto;
 import com.toy.jpa.exception.MemberExitException;
 import com.toy.jpa.domain.Member;
 import com.toy.jpa.repository.MemberRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,22 +23,24 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void join(Member member) {
-        memberRepository.save(member);
+    public Long join(MemberJoinRequestDto dto) {
+        Member member = new Member();
+        member.joinMember(dto);
+        Member saved = memberRepository.save(member);
+        return saved.getId();
     }
 
     public FindMemberResponseDto findByEmail(String email) {
         Optional<Member> findMember = memberRepository.findByEmailAndStatus(email, ExitStatus.JOIN);
-        return convertFindMemberDto(findMember);
+        if (findMember.isPresent()) {
+            return convertFindMemberDto(findMember);
+        } else {
+            throw new IllegalStateException("존재하지 않는 회원입니다.");
+        }
     }
 
-    public FindMemberResponseDto findById(Long id) {
-        Optional<Member> findMember = memberRepository.findById(id);
-        return convertFindMemberDto(findMember);
-    }
-
-    private FindMemberResponseDto convertFindMemberDto(Optional<Member> member) {
-        return new FindMemberResponseDto(member.get());
+    public Member findById(Long id) {
+        return memberRepository.findById(id).orElseThrow();
     }
 
     @Transactional
@@ -45,8 +50,20 @@ public class MemberService {
     }
 
     @Transactional
-    public void exitMember(Member member) throws MemberExitException {
-        member.changeStatus();
+    public void exitMember(Long id) {
+        Optional<Member> findMember = memberRepository.findById(id);
+        findMember.get().changeStatus();
+    }
+
+    private FindMemberResponseDto convertFindMemberDto(Optional<Member> member) {
+        return FindMemberResponseDto.builder()
+                .id(member.get().getId())
+                .name(member.get().getName())
+                .email(member.get().getEmail())
+                .city(member.get().getAddress().getCity())
+                .street(member.get().getAddress().getStreet())
+                .zipcode(member.get().getAddress().getZipcode())
+                .build();
     }
 }
 

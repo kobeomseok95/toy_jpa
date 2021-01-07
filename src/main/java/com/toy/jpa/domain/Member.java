@@ -1,5 +1,6 @@
 package com.toy.jpa.domain;
 
+import com.toy.jpa.dto.MemberJoinRequestDto;
 import com.toy.jpa.dto.UpdateMemberRequestDto;
 import com.toy.jpa.exception.MemberExitException;
 import com.toy.jpa.domain.base.BaseTimeEntity;
@@ -47,6 +48,18 @@ public class Member extends BaseTimeEntity {
         this.name = dto.getName();
         this.email = dto.getEmail();
         this.password = dto.getPassword();
+        this.address = Address.builder()
+                .city(dto.getCity())
+                .street(dto.getStreet())
+                .zipcode(dto.getZipcode())
+                .build();
+    }
+
+    public void joinMember(MemberJoinRequestDto dto) {
+        this.name = dto.getName();
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.status = ExitStatus.JOIN;
         this.address = Address.builder()
                 .city(dto.getCity())
                 .street(dto.getStreet())
