@@ -1,5 +1,6 @@
 package com.toy.jpa.domain;
 
+import com.toy.jpa.domain.status.ExitStatus;
 import com.toy.jpa.dto.MemberJoinRequestDto;
 import com.toy.jpa.dto.UpdateMemberRequestDto;
 import com.toy.jpa.exception.MemberExitException;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@ToString(of = {"name", "email", "password", "address", "status"})
+@ToString(of = {"name", "email", "password", "address", "status", "boards"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,6 +33,9 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     private ExitStatus status;

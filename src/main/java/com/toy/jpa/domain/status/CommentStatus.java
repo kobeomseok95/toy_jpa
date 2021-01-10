@@ -1,2 +1,5 @@
-package com.toy.jpa.domain.status;public class CommentStatus {
+package com.toy.jpa.domain.status;
+
+public enum CommentStatus {
+    COMMENTED, DELETE
 }

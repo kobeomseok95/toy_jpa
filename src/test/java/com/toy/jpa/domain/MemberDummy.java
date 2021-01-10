@@ -1,5 +1,9 @@
 package com.toy.jpa.domain;
 
+import com.toy.jpa.domain.status.ExitStatus;
+
+import java.util.ArrayList;
+
 public class MemberDummy {
 
     public static Member memberBuilder() {
@@ -12,6 +16,8 @@ public class MemberDummy {
                 .address(
                         addressBuilder()
                 )
+                .boards(new ArrayList<>())
+                .comments(new ArrayList<>())
                 .build();
     }
 

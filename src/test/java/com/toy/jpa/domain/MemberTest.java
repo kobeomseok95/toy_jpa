@@ -1,10 +1,10 @@
 package com.toy.jpa.domain;
 
+import com.toy.jpa.domain.status.ExitStatus;
 import com.toy.jpa.dto.MemberJoinRequestDto;
 import com.toy.jpa.dto.UpdateMemberRequestDto;
 import com.toy.jpa.exception.MemberExitException;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

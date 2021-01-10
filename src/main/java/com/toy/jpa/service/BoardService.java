@@ -30,6 +30,6 @@ public class BoardService {
     @Transactional
     public void delete(Long boardId) {
         Optional<Board> board = boardRepository.findById(boardId);
-        board.get().changeStatus();
+        board.get().deleteBoard();
     }
 }

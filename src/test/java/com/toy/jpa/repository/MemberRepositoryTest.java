@@ -1,17 +1,14 @@
 package com.toy.jpa.repository;
 
 import com.toy.jpa.domain.Address;
-import com.toy.jpa.domain.ExitStatus;
+import com.toy.jpa.domain.status.ExitStatus;
 import com.toy.jpa.domain.Member;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

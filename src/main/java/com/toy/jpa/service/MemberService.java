@@ -1,14 +1,11 @@
 package com.toy.jpa.service;
 
-import com.toy.jpa.domain.Address;
-import com.toy.jpa.domain.ExitStatus;
+import com.toy.jpa.domain.status.ExitStatus;
 import com.toy.jpa.dto.FindMemberResponseDto;
 import com.toy.jpa.dto.MemberJoinRequestDto;
 import com.toy.jpa.dto.UpdateMemberRequestDto;
-import com.toy.jpa.exception.MemberExitException;
 import com.toy.jpa.domain.Member;
 import com.toy.jpa.repository.MemberRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
