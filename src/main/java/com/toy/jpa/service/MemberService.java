@@ -1,5 +1,6 @@
 package com.toy.jpa.service;
 
+import com.toy.jpa.domain.Address;
 import com.toy.jpa.domain.status.ExitStatus;
 import com.toy.jpa.dto.FindMemberResponseDto;
 import com.toy.jpa.dto.MemberJoinRequestDto;
@@ -22,9 +23,9 @@ public class MemberService {
     @Transactional
     public Long join(MemberJoinRequestDto dto) {
         Member member = new Member();
+        dto.setPassword("{noop}" + dto.getPassword());
         member.joinMember(dto);
-        Member saved = memberRepository.save(member);
-        return saved.getId();
+        return memberRepository.save(member).getId();
     }
 
     public FindMemberResponseDto findByEmail(String email) {
